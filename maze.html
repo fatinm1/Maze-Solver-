@@ -1,0 +1,34 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Maze Solver</title>
+</head>
+<body>
+    <h1>Maze Solver</h1>
+    <textarea id="maze" rows="10" cols="50"></textarea><br>
+    <button onclick="solveMaze()">Solve Maze</button>
+    <pre id="solution"></pre>
+
+    <script>
+        function solveMaze() {
+            const maze = document.getElementById('maze').value;
+            fetch('/solve', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({maze: maze}),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('solution').textContent = data.path;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
